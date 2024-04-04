@@ -53,7 +53,7 @@ app.get("/", (_req, res) => {
     return res.send("travel web backend - DEPLOY");
 });
 app.get("/test", (_req, res) => {
-    return res.send("test ok 🏓");
+    return res.send("test travel ok 🏓");
 });
 app.use("/upload", multer_1.default.single("image"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const uploadedFile = req.file;

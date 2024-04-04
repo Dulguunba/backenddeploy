@@ -46,7 +46,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.get("/test", (_req: Request, res: Response) => {
-  return res.send("test ok 🏓");
+  return res.send("test travel ok 🏓");
 });
 
 app.use("/upload", upload.single("image"), async (req, res) => {
