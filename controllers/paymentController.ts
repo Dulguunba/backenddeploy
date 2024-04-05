@@ -11,9 +11,11 @@ export const createPayment = async (req: Request, res: Response) => {
   const { orderNumber, paymentStatus, paymentType } = req.body;
   try {
     const newPayment = await PaymentModel.create({
-        orderNumber, paymentStatus, paymentType,
-        createdAt: new Date(),
-        updatedAt: new Date()
+      orderNumber,
+      paymentStatus,
+      paymentType,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     res.status(200).json({ message: "successfully created payment" });
   } catch (error) {
@@ -23,7 +25,6 @@ export const createPayment = async (req: Request, res: Response) => {
 
 export const getPayment = async (req: Request, res: Response) => {
   try {
-
     const paymentQuery = PaymentModel.find({});
     paymentQuery.sort("-createdAt");
     // paymentQuery.select("_id paymentName email phoneNumber");

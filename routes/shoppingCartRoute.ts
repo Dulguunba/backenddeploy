@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { createShoppingCart, getShoppingCart } from "../controllers/shoppingCartController";
+import {
+  createShoppingCart,
+  getShoppingCart,
+} from "../controllers/shoppingCartController";
 
 const shoppingCartRouter = Router();
 shoppingCartRouter.route("/create").post(createShoppingCart);

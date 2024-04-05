@@ -1,1 +1,0 @@
-{"version":3,"file":"orderRoute.js","sourceRoot":"","sources":["../../routes/orderRoute.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AACjC,oEAAuE;AAEvE,MAAM,WAAW,GAAG,IAAA,gBAAM,GAAE,CAAC;AAC7B,WAAW,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC,IAAI,CAAC,6BAAW,CAAC,CAAC;AAC/C,WAAW,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,0BAAQ,CAAC,CAAC;AAExC,kBAAe,WAAW,CAAC"}

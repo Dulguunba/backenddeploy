@@ -7,17 +7,19 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const createShoppingCart = async (req: Request, res: Response) => {
-  const {orderNumber, travelCount } = req.body;
+  const { orderNumber, travelCount } = req.body;
 
   try {
     const newShoppingCart = await ShoppingCartModel.create({
-      orderNumber, travelCount,
+      orderNumber,
+      travelCount,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    res
-      .status(200)
-      .json({ message: "successfully created shopping cart", result: newShoppingCart });
+    res.status(200).json({
+      message: "successfully created shopping cart",
+      result: newShoppingCart,
+    });
   } catch (error) {
     res.status(400).json({ message: "fail to create shpping cart" });
   }
@@ -30,6 +32,8 @@ export const getShoppingCart = async (req: Request, res: Response) => {
     const shoppingCartData = await shoppingCartQuery.exec();
     res.status(200).json({ result: shoppingCartData });
   } catch (error) {
-    res.status(400).json({ message: "fail to get shopping cart data", error: error });
+    res
+      .status(400)
+      .json({ message: "fail to get shopping cart data", error: error });
   }
 };

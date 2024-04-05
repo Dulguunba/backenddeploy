@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import categoryRouter from "../routes/categoryRoute";
 
 dotenv.config();
 

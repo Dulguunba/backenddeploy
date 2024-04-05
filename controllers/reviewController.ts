@@ -8,12 +8,17 @@ import categoryRouter from "../routes/categoryRoute";
 dotenv.config();
 
 export const createReview = async (req: Request, res: Response) => {
-  const { travelId, stars , comment , userId, email, phoneNumber} = req.body;
+  const { travelId, stars, comment, userId, email, phoneNumber } = req.body;
   try {
     const newPayment = await ReviewModel.create({
-        travelId, stars , comment , userId, email, phoneNumber,
-        createdAt: new Date(),
-        updatedAt: new Date()
+      travelId,
+      stars,
+      comment,
+      userId,
+      email,
+      phoneNumber,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     res.status(200).json({ message: "successfully created review" });
   } catch (error) {

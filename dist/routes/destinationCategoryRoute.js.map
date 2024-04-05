@@ -1,1 +1,0 @@
-{"version":3,"file":"destinationCategoryRoute.js","sourceRoot":"","sources":["../../routes/destinationCategoryRoute.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AACjC,kGAAkH;AAElH,MAAM,yBAAyB,GAAG,IAAA,gBAAM,GAAE,CAAC;AAC3C,yBAAyB,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC,IAAI,CAAC,0DAAyB,CAAC,CAAC;AAC3E,yBAAyB,CAAC,KAAK,CAAC,MAAM,CAAC,CAAC,GAAG,CAAC,uDAAsB,CAAC,CAAC;AAEpE,kBAAe,yBAAyB,CAAC"}
