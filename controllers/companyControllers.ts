@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-
+///
 dotenv.config();
 
 function generateRandomString() {
