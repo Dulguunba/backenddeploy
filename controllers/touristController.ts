@@ -36,3 +36,16 @@ export const getTourist = async (req: Request, res: Response) => {
     res.status(400).json({ message: "fail to get tourist data", error: error });
   }
 };
+
+export const deleteTourist = async (req: Request, res: Response) => {
+  try {
+    const { name, group } = req.body;
+    if (!name || !group) {
+      return res.status(401).json({ message: "undifined to name or group" });
+    }
+    const deleteTourist = await TouristModel.deleteMany({ name, group });
+    res.status(201).json({ message: "successfully delete tourist" });
+  } catch (error) {
+    res.status(400).json({ message: "fail to delete tourist" });
+  }
+};

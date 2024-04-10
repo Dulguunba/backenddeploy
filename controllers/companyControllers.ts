@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-///
+
 dotenv.config();
 
 function generateRandomString() {
@@ -71,5 +71,22 @@ export const getCompany = async (req: Request, res: Response) => {
     res.status(200).json({ result: companyData });
   } catch (error) {
     res.status(400).json({ message: "fail to get company data", error: error });
+  }
+};
+
+export const deleteCompany = async (req: Request, res: Response) => {
+  try {
+    const { name, email, phoneNumber } = req.body;
+    if (!name || !email || !phoneNumber) {
+      return res.status(400).json({ message: "undifined name or email" });
+    }
+    const deleteCompany = await CompanyModel.deleteMany({
+      name,
+      email,
+      phoneNumber,
+    });
+    res.status(200).json({ message: "successfull delete company" });
+  } catch (error) {
+    res.status(400).json({ message: "faild delete company" });
   }
 };

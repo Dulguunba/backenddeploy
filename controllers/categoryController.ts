@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import categoryRouter from "../routes/categoryRoute";
 
 dotenv.config();
 
@@ -31,5 +32,15 @@ export const getCategory = async (req: Request, res: Response) => {
     res.status(200).json({ result: categoryData });
   } catch (error) {
     res.status(400).json({ message: "fail to get tourist data", error: error });
+  }
+};
+
+export const deleteCategory = async (req: Request, res: Response) => {
+  try {
+    const { name, english } = req.body;
+    const deleteCategory = await CategoryModel.deleteMany({ name, english });
+    res.status(201).json({ messaga: "successFully delete" });
+  } catch (error) {
+    res.status(400).json({ message: "failed delete" });
   }
 };
