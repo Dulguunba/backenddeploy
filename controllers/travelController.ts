@@ -282,3 +282,20 @@ export const getTravelSkipLimit = async (req: Request, res: Response) => {
     res.status(400).json({ message: "fail to get travel data", error: error });
   }
 };
+
+export const getTravelId = async (req: Request, res: Response) => {
+  const { travelId } = req.body;
+  console.log(travelId, typeof travelId);
+
+  try {
+    const travelQuery = TravelModel.find({ _id: travelId }).populate(
+      "destination"
+    );
+    travelQuery.sort("-createdAt");
+    // travelQuery.select("_id travelName email phoneNumber");
+    const travelData = await travelQuery.exec();
+    res.status(200).json({ result: travelData });
+  } catch (error) {
+    res.status(400).json({ message: "fail to get travel data", error: error });
+  }
+};

@@ -7,6 +7,7 @@ import {
   getTravel,
   getTravelAllPagination,
   getTravelByDestination,
+  getTravelId,
   getTravelSkipLimit,
 } from "../controllers/travelController";
 
@@ -19,5 +20,6 @@ travelRouter.route("/number").get(getNumberofTravel);
 travelRouter.route("/numberlastweek").get(getNumberTravelLastWeek);
 travelRouter.route("/destinationpage").post(getTravelSkipLimit);
 travelRouter.route("/pagination").post(getTravelAllPagination);
+travelRouter.route("/id").post(getTravelId);
 
 export { travelRouter };
