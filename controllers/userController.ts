@@ -42,13 +42,13 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const { email, userName } = req.body;
+    const { email, userName, } = req.body;
     if (!email || !userName) {
-      return res.status(400).json({ message: "undifined email pass" });
+      return res.status(400).json({ message: "undifined email pass" })
     }
-    const deleteUser = await UserModel.deleteMany({ email, userName });
-    res.status(201).json({ message: "successfully delete" });
+    const deleteUser = await UserModel.deleteMany({ email, userName })
+    res.status(201).json({ message: "successfully delete" })
   } catch (error) {
-    res.status(400).json({ message: "fail to delete" });
+    res.status(400).json({ message: "fail to delete" })
   }
-};
+}

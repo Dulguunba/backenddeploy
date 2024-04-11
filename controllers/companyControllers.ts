@@ -78,15 +78,11 @@ export const deleteCompany = async (req: Request, res: Response) => {
   try {
     const { name, email, phoneNumber } = req.body;
     if (!name || !email || !phoneNumber) {
-      return res.status(400).json({ message: "undifined name or email" });
+      return res.status(400).json({ message: "undifined name or email" })
     }
-    const deleteCompany = await CompanyModel.deleteMany({
-      name,
-      email,
-      phoneNumber,
-    });
-    res.status(200).json({ message: "successfull delete company" });
+    const deleteCompany = await CompanyModel.deleteMany({ name, email, phoneNumber })
+    res.status(200).json({ message: "successfull delete company" })
   } catch (error) {
-    res.status(400).json({ message: "faild delete company" });
+    res.status(400).json({ message: "faild delete company" })
   }
-};
+}

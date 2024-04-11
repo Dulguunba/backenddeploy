@@ -85,6 +85,7 @@ const travelSchema = new Schema({
     type: Schema.ObjectId,
     ref: "destination",
     required: [true, "Please insert input"],
+
   },
   createdAt: {
     type: Date,

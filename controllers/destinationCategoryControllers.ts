@@ -3,13 +3,12 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import { DestinationModel } from "../models/destinationModel";
+
 
 dotenv.config();
 
-export const createDestinationCategory = async (
-  req: Request,
-  res: Response
-) => {
+export const createDestinationCategory = async (req: Request, res: Response) => {
   const { name, english } = req.body;
   console.log("name", name, "english", english);
   try {
@@ -19,9 +18,7 @@ export const createDestinationCategory = async (
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    res
-      .status(200)
-      .json({ message: "successfully created destination category" });
+    res.status(200).json({ message: "successfully created destination category" });
   } catch (error) {
     res.status(400).json({ message: "fail to create destination category " });
   }
@@ -35,8 +32,18 @@ export const getDestinationCategory = async (req: Request, res: Response) => {
     const destinationCategoryData = await destinationCategoryQuery.exec();
     res.status(200).json({ result: destinationCategoryData });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "fail to get destination category data", error: error });
+    res.status(400).json({ message: "fail to get destination category data", error: error });
   }
 };
+
+export const deleteDestinationCategory = async (req: Request, res: Response) => {
+  try {
+    const { name, english } = req.body;
+    if (!name || !english) {
+      return res.status(401).json({ message: "undifinded name or english" })
+    }
+    const deleteDestination = await DestinationCategoryModel.deleteMany({ name, english })
+  } catch (error) {
+    res.status(400).json({ message: "fail to delete DestinationCategory" })
+  }
+}

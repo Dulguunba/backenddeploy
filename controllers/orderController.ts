@@ -9,45 +9,39 @@ dotenv.config();
 
 export const createOrder = async (req: Request, res: Response) => {
   const {
-    orderNumber,
-    status,
+    amount,
+    email,
     phoneNumber,
     travelDate,
-    amountPaid,
-    amountToBePaid,
-    coupon,
     description,
     details,
     lastName,
     firstName,
+    travelId
   } = req.body;
   console.log(
-    orderNumber,
-    status,
+    amount,
+    email,
     phoneNumber,
     travelDate,
-    amountPaid,
-    amountToBePaid,
-    coupon,
     description,
     details,
     lastName,
-    firstName
+    firstName,
+    travelId
   );
 
   try {
     const newOrder = await OrderModel.create({
-      orderNumber,
-      status,
+      amount,
+      email,
       phoneNumber,
       travelDate,
-      amountPaid,
-      amountToBePaid,
-      coupon,
       description,
       details,
       lastName,
       firstName,
+      travelId,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -69,3 +63,15 @@ export const getOrder = async (req: Request, res: Response) => {
     res.status(400).json({ message: "fail to get order data", error: error });
   }
 };
+export const deleteOrder = async (req: Request, res: Response) => {
+  try {
+    console.log("hello")
+    const { _id } = req.query;
+    console.log(_id)
+    const deleteNode = await OrderModel.findByIdAndDelete({ _id })
+    res.send("ok")
+  } catch (error) {
+    res.status(400).json({ message: "fail to delete user data", error: error });
+  }
+}
+

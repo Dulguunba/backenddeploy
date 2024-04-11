@@ -33,7 +33,6 @@ const reviewSchema = new mongoose_1.Schema({
     phoneNumber: {
         type: Number,
         max: [100000000, "wrong phone number"],
-        required: [true, "please insert input"],
     },
 });
 exports.ReviewModel = (0, mongoose_1.model)("reviews", reviewSchema);

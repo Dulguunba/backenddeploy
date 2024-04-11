@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDestination = exports.createDestination = void 0;
+exports.deleteDestination = exports.getDestination = exports.createDestination = void 0;
 const destinationModel_1 = require("../models/destinationModel");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const createDestination = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, english, destinationCategory } = req.body;
-    console.log("name", name, "english", english, "destination category id", destinationCategory);
+    console.log("name", name, "english", english, 'destination category id', destinationCategory);
     try {
         const newCategory = yield destinationModel_1.DestinationModel.create({
             name,
@@ -42,9 +42,21 @@ const getDestination = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json({ result: destinationData });
     }
     catch (error) {
-        res
-            .status(400)
-            .json({ message: "fail to get destination data", error: error });
+        res.status(400).json({ message: "fail to get destination data", error: error });
     }
 });
 exports.getDestination = getDestination;
+const deleteDestination = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, english, destinationCategory } = req.body;
+        if (!name || !english || !destinationCategory) {
+            return res.status(401).json({ message: "undifinded name or english or destination" });
+        }
+        const deleteDestination = yield destinationModel_1.DestinationModel.deleteMany({ name, english, destinationCategory });
+        res.status(200).json({ message: "successfully delete Destination" });
+    }
+    catch (error) {
+        res.status(400).json({ message: "fail to delete destination" });
+    }
+});
+exports.deleteDestination = deleteDestination;

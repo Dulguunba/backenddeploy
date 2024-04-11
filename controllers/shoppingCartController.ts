@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const createShoppingCart = async (req: Request, res: Response) => {
-  const { orderNumber, travelCount } = req.body;
+  const { orderNumber, travelCount, email } = req.body;
 
   try {
     const newShoppingCart = await ShoppingCartModel.create({

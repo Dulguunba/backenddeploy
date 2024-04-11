@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.createUser = void 0;
+exports.deleteUser = exports.getUser = exports.createUser = void 0;
 const userModel_1 = require("../models/userModel");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -52,3 +52,17 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUser = getUser;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, userName, } = req.body;
+        if (!email || !userName) {
+            return res.status(400).json({ message: "undifined email pass" });
+        }
+        const deleteUser = yield userModel_1.UserModel.deleteMany({ email, userName });
+        res.status(201).json({ message: "successfully delete" });
+    }
+    catch (error) {
+        res.status(400).json({ message: "fail to delete" });
+    }
+});
+exports.deleteUser = deleteUser;

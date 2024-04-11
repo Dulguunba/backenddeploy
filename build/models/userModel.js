@@ -5,7 +5,6 @@ const mongoose_1 = require("mongoose");
 const userSchema = new mongoose_1.Schema({
     userName: {
         type: String,
-        required: [true, "Please insert input"],
     },
     email: {
         type: String,
@@ -13,11 +12,12 @@ const userSchema = new mongoose_1.Schema({
     },
     phoneNumber: {
         type: Number,
-        required: [true, "Please insert input"],
     },
     password: {
         type: String,
-        required: [true, "Please insert input"],
+    },
+    address: {
+        type: String,
     },
     //   cartId: {
     //     type: String,

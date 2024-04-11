@@ -12,26 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrder = exports.createOrder = void 0;
+exports.deleteOrder = exports.getOrder = exports.createOrder = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const orderModel_1 = require("../models/orderModel");
 dotenv_1.default.config();
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { orderNumber, status, phoneNumber, travelDate, amountPaid, amountToBePaid, coupon, description, details, lastName, firstName, } = req.body;
-    console.log(orderNumber, status, phoneNumber, travelDate, amountPaid, amountToBePaid, coupon, description, details, lastName, firstName);
+    const { amount, email, phoneNumber, travelDate, description, details, lastName, firstName, travelId } = req.body;
+    console.log(amount, email, phoneNumber, travelDate, description, details, lastName, firstName, travelId);
     try {
         const newOrder = yield orderModel_1.OrderModel.create({
-            orderNumber,
-            status,
+            amount,
+            email,
             phoneNumber,
             travelDate,
-            amountPaid,
-            amountToBePaid,
-            coupon,
             description,
             details,
             lastName,
             firstName,
+            travelId,
             createdAt: new Date(),
             updatedAt: new Date(),
         });
@@ -56,3 +54,16 @@ const getOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getOrder = getOrder;
+const deleteOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log("hello");
+        const { _id } = req.query;
+        console.log(_id);
+        const deleteNode = yield orderModel_1.OrderModel.findByIdAndDelete({ _id });
+        res.send("ok");
+    }
+    catch (error) {
+        res.status(400).json({ message: "fail to delete user data", error: error });
+    }
+});
+exports.deleteOrder = deleteOrder;

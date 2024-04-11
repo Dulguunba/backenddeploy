@@ -26,7 +26,7 @@ const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             email,
             phoneNumber,
             createdAt: new Date(),
-            updatedAt: new Date(),
+            updatedAt: new Date()
         });
         res.status(200).json({ message: "successfully created comment" });
     }

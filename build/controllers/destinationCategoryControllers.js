@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDestinationCategory = exports.createDestinationCategory = void 0;
+exports.deleteDestinationCategory = exports.getDestinationCategory = exports.createDestinationCategory = void 0;
 const destinationCategoryModel_1 = require("../models/destinationCategoryModel");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -26,9 +26,7 @@ const createDestinationCategory = (req, res) => __awaiter(void 0, void 0, void 0
             createdAt: new Date(),
             updatedAt: new Date(),
         });
-        res
-            .status(200)
-            .json({ message: "successfully created destination category" });
+        res.status(200).json({ message: "successfully created destination category" });
     }
     catch (error) {
         res.status(400).json({ message: "fail to create destination category " });
@@ -44,9 +42,20 @@ const getDestinationCategory = (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(200).json({ result: destinationCategoryData });
     }
     catch (error) {
-        res
-            .status(400)
-            .json({ message: "fail to get destination category data", error: error });
+        res.status(400).json({ message: "fail to get destination category data", error: error });
     }
 });
 exports.getDestinationCategory = getDestinationCategory;
+const deleteDestinationCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, english } = req.body;
+        if (!name || !english) {
+            return res.status(401).json({ message: "undifinded name or english" });
+        }
+        const deleteDestination = yield destinationCategoryModel_1.DestinationCategoryModel.deleteMany({ name, english });
+    }
+    catch (error) {
+        res.status(400).json({ message: "fail to delete DestinationCategory" });
+    }
+});
+exports.deleteDestinationCategory = deleteDestinationCategory;

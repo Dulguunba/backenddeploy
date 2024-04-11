@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCompany = exports.createCompany = void 0;
+exports.deleteCompany = exports.getCompany = exports.createCompany = void 0;
 const companyModel_1 = require("../models/companyModel");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -84,3 +84,17 @@ const getCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getCompany = getCompany;
+const deleteCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, email, phoneNumber } = req.body;
+        if (!name || !email || !phoneNumber) {
+            return res.status(400).json({ message: "undifined name or email" });
+        }
+        const deleteCompany = yield companyModel_1.CompanyModel.deleteMany({ name, email, phoneNumber });
+        res.status(200).json({ message: "successfull delete company" });
+    }
+    catch (error) {
+        res.status(400).json({ message: "faild delete company" });
+    }
+});
+exports.deleteCompany = deleteCompany;

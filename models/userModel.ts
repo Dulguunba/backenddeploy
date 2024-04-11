@@ -3,7 +3,6 @@ import { Schema, model } from "mongoose";
 const userSchema = new Schema({
   userName: {
     type: String,
-    required: [true, "Please insert input"],
   },
   email: {
     type: String,
@@ -11,11 +10,12 @@ const userSchema = new Schema({
   },
   phoneNumber: {
     type: Number,
-    required: [true, "Please insert input"],
   },
   password: {
     type: String,
-    required: [true, "Please insert input"],
+  },
+  address: {
+    type: String,
   },
   //   cartId: {
   //     type: String,

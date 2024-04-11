@@ -85,11 +85,10 @@ export const getTravel = async (req: Request, res: Response) => {
 
 export const getTravelByDestination = async (req: Request, res: Response) => {
   const { destinationId } = req.body;
-  console.log(destinationId);
   try {
-    const travelQuery = TravelModel.find({});
+    const travelQuery = TravelModel.find({})
     travelQuery.sort("-createdAt");
-    const travelData = await travelQuery.exec();
+    const travelData = await travelQuery.exec()
     const destinationData = await travelData.filter((travel) => {
       travel.destination === destinationId;
     });

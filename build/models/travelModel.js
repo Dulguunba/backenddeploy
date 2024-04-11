@@ -57,6 +57,10 @@ const travelSchema = new mongoose_1.Schema({
             required: [true, "Please insert input"],
         },
     },
+    maxTourist: {
+        type: Number,
+        required: [true, "required"],
+    },
     categoryType: {},
     touristType: {},
     additionalInfo: {
@@ -78,6 +82,11 @@ const travelSchema = new mongoose_1.Schema({
     },
     calendar: {
         type: Array,
+    },
+    destination: {
+        type: mongoose_1.Schema.ObjectId,
+        ref: "destination",
+        required: [true, "Please insert input"],
     },
     createdAt: {
         type: Date,

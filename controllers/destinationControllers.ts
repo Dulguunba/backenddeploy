@@ -4,18 +4,12 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
+
 dotenv.config();
 
 export const createDestination = async (req: Request, res: Response) => {
   const { name, english, destinationCategory } = req.body;
-  console.log(
-    "name",
-    name,
-    "english",
-    english,
-    "destination category id",
-    destinationCategory
-  );
+  console.log("name", name, "english", english, 'destination category id', destinationCategory);
   try {
     const newCategory = await DestinationModel.create({
       name,
@@ -32,15 +26,23 @@ export const createDestination = async (req: Request, res: Response) => {
 
 export const getDestination = async (req: Request, res: Response) => {
   try {
-    const destinationQuery = DestinationModel.find({}).populate(
-      "destinationCategory"
-    );
-    destinationQuery.sort("-createdAt");
+    const destinationQuery = DestinationModel.find({}).populate("destinationCategory")
+    destinationQuery.sort("-createdAt")
     const destinationData = await destinationQuery.exec();
     res.status(200).json({ result: destinationData });
   } catch (error) {
-    res
-      .status(400)
-      .json({ message: "fail to get destination data", error: error });
+    res.status(400).json({ message: "fail to get destination data", error: error });
   }
 };
+export const deleteDestination = async (req: Request, res: Response) => {
+  try {
+    const { name, english, destinationCategory } = req.body;
+    if (!name || !english || !destinationCategory) {
+      return res.status(401).json({ message: "undifinded name or english or destination" })
+    }
+    const deleteDestination = await DestinationModel.deleteMany({ name, english, destinationCategory })
+    res.status(200).json({ message: "successfully delete Destination" })
+  } catch (error) {
+    res.status(400).json({ message: "fail to delete destination" })
+  }
+}

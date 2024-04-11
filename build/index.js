@@ -31,12 +31,15 @@ const commentRoute_1 = __importDefault(require("./routes/commentRoute"));
 const reviewRoute_1 = __importDefault(require("./routes/reviewRoute"));
 const paymentRoute_1 = __importDefault(require("./routes/paymentRoute"));
 const shoppingCartRoute_1 = __importDefault(require("./routes/shoppingCartRoute"));
+const axios_1 = __importDefault(require("axios"));
+const orderModel_1 = require("./models/orderModel");
 const app = (0, express_1.default)();
-const port = process.env.PORT || 8080;
+const PORT = 8800;
 (0, connectToDb_1.connectToDb)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
+//test pls
 app.use("/travel", travelRoute_1.travelRouter);
 app.use("/tourist", touristRoute_1.default);
 app.use("/category", categoryRoute_1.default);
@@ -49,11 +52,10 @@ app.use("/comment", commentRoute_1.default);
 app.use("/review", reviewRoute_1.default);
 app.use("/payment", paymentRoute_1.default);
 app.use("/shoppingcart", shoppingCartRoute_1.default);
-app.get("/", (_req, res) => {
-    return res.send("travel web backend - DEPLOY");
-});
-app.get("/test", (_req, res) => {
-    return res.send("test travel ok 🏓");
+// app.use("/travelcalendar", );
+// app.use("/travelroute", );
+app.get("", (req, res) => {
+    res.send("Hello world");
 });
 app.use("/upload", multer_1.default.single("image"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const uploadedFile = req.file;
@@ -71,6 +73,36 @@ app.use("/upload", multer_1.default.single("image"), (req, res) => __awaiter(voi
         res.status(400).json({ message: "fail to upload image" });
     }
 }));
-app.listen(port, () => {
-    return console.log(`Server is listening on http://localhost:${port}`);
+app.post("/createinvoice", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { token } = req.body;
+    console.log('token', token);
+    const createQr = yield axios_1.default.post("https://merchant.qpay.mn/v2/invoice", {
+        "invoice_code": "POWER_EXPO_INVOICE",
+        "sender_invoice_no": "1234567",
+        "invoice_receiver_code": "terminal",
+        "invoice_description": "test",
+        "amount": 10,
+        "callback_url": "http://localhost:3000"
+    }, { headers: { Authorization: `Bearer ${token}` } });
+    console.log('invoice', createQr);
+    return res.status(201).json({ invoiceId: createQr.data });
+}));
+app.post("/check", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.body;
+    const checkRes = yield axios_1.default.post("https://merchant.qpay.mn/v2/payment/check", {
+        object_type: "INVOICE",
+        object_id: req.body.invoiceId,
+        offset: {
+            page_number: 1,
+            page_limit: 100,
+        },
+    }, { headers: { Authorization: `Bearer ${req.body.token}` } });
+    console.log(checkRes.data.rows.length);
+    if (checkRes.data.rows.length > 0) {
+        yield orderModel_1.OrderModel.findByIdAndUpdate(orderId, { IsPaidStatus: true });
+    }
+    return res.status(200).json({ check: checkRes.data });
+}));
+app.listen(PORT, () => {
+    console.log("running at http://localhost:" + PORT);
 });

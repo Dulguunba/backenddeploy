@@ -17,7 +17,7 @@ const shoppingCartModel_1 = require("../models/shoppingCartModel");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const createShoppingCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { orderNumber, travelCount } = req.body;
+    const { orderNumber, travelCount, email } = req.body;
     try {
         const newShoppingCart = yield shoppingCartModel_1.ShoppingCartModel.create({
             orderNumber,

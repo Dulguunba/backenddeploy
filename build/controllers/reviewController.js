@@ -20,14 +20,9 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const { travelId, stars, comment, userId, email, phoneNumber } = req.body;
     try {
         const newPayment = yield reviewModel_1.ReviewModel.create({
-            travelId,
-            stars,
-            comment,
-            userId,
-            email,
-            phoneNumber,
+            travelId, stars, comment, userId, email, phoneNumber,
             createdAt: new Date(),
-            updatedAt: new Date(),
+            updatedAt: new Date()
         });
         res.status(200).json({ message: "successfully created review" });
     }

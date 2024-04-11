@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategory = exports.createCategory = void 0;
+exports.deleteCategory = exports.getCategory = exports.createCategory = void 0;
 const categoryModel_1 = require("../models/categoryModel");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -46,3 +46,14 @@ const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getCategory = getCategory;
+const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, english } = req.body;
+        const deleteCategory = yield categoryModel_1.CategoryModel.deleteMany({ name, english });
+        res.status(201).json({ messaga: "successFully delete" });
+    }
+    catch (error) {
+        res.status(400).json({ message: "failed delete" });
+    }
+});
+exports.deleteCategory = deleteCategory;
