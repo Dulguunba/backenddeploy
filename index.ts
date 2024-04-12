@@ -60,14 +60,13 @@ app.use("/upload", upload.single("image"), async (req, res) => {
     await image.save();
     return res.status(200).json({ message: "successful", image: image });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).json({ message: "fail to upload image" });
   }
 });
 
 app.post("/createinvoice", async (req, res) => {
   const { token } = req.body
-  console.log('token', token);
 
 
   const createQr = await axios.post("https://merchant.qpay.mn/v2/invoice", {
@@ -76,36 +75,39 @@ app.post("/createinvoice", async (req, res) => {
     "invoice_receiver_code": "terminal",
     "invoice_description": "test",
     "amount": 10,
-    "callback_url": "http://localhost:3000"
+    "callback_url": "https://backenddeploy-so3p.onrender.com"
   }, { headers: { Authorization: `Bearer ${token}` } });
-
-  console.log('invoice', createQr);
 
   return res.status(201).json({ invoiceId: createQr.data })
 })
 
 app.post("/check", async (req, res) => {
-  const { orderId } = req.body;
-  const checkRes = await axios.post(
-    "https://merchant.qpay.mn/v2/payment/check",
-    {
-      object_type: "INVOICE",
-      object_id: req.body.invoiceId,
-      offset: {
-        page_number: 1,
-        page_limit: 100,
+  try {
+    console.log(req.body)
+    const { orderId } = req.body;
+    const checkRes = await axios.post(
+      "https://merchant.qpay.mn/v2/payment/check",
+      {
+        object_type: "INVOICE",
+        object_id: req.body.invoiceId,
+        offset: {
+          page_number: 1,
+          page_limit: 100,
+        },
       },
-    },
 
-    { headers: { Authorization: `Bearer ${req.body.token}` } }
-  );
-  console.log(checkRes.data.rows.length);
+      { headers: { Authorization: `Bearer ${req.body.token}` } }
+    );
+    console.log(checkRes.data);
 
-  if (checkRes.data.rows.length > 0) {
-    await OrderModel.findByIdAndUpdate(orderId, { IsPaidStatus: true });
+    if (checkRes.data.rows.length > 0) {
+      await OrderModel.findByIdAndUpdate(orderId, { IsPaidStatus: true });
 
+    }
+    return res.status(200).json({ check: checkRes.data });
+  } catch (error) {
+    console.error(error)
   }
-  return res.status(200).json({ check: checkRes.data });
 });
 
 

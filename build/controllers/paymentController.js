@@ -16,7 +16,6 @@ exports.checkPayment = exports.createInvoice = exports.getPayment = exports.crea
 const paymentModel_1 = require("../models/paymentModel");
 const dotenv_1 = __importDefault(require("dotenv"));
 const axios_1 = __importDefault(require("axios"));
-const orderModel_1 = require("../models/orderModel");
 dotenv_1.default.config();
 const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { orderNumber, paymentStatus, paymentType } = req.body;
@@ -59,18 +58,29 @@ const createInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.createInvoice = createInvoice;
 const checkPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { orderId } = req.query;
-    const checkRes = yield axios_1.default.post("https://merchant.qpay.mn/v2/payment/check", {
-        object_type: "INVOICE",
-        object_id: req.body.invoiceId,
-        offset: {
-            page_number: 1,
-            page_limit: 100,
-        },
-    }, { headers: { Authorization: `Bearer ${req.body.token}` } });
-    if (checkRes.data.isPaid) {
-        yield orderModel_1.OrderModel.findByIdAndUpdate(orderId, { IsPaidStatus: true });
+    try {
+        console.log("first");
+        // const { orderId } = req.query;
+        // const checkRes = await axios.post(
+        //   "https://merchant.qpay.mn/v2/payment/check",
+        //   {
+        //     object_type: "INVOICE",
+        //     object_id: req.body.invoiceId,
+        //     offset: {
+        //       page_number: 1,
+        //       page_limit: 100,
+        //     },
+        //   },
+        //   { headers: { Authorization: `Bearer ${req.body.token}` } }
+        // );
+        // if (checkRes.data.isPaid) {
+        //   await OrderModel.findByIdAndUpdate(new mongoose.Types.ObjectId(orderId), { IsPaidStatus: true });
+        // }
+        return res.status(200).json({ check: true });
     }
-    return res.status(200).json({ check: checkRes.data });
+    catch (error) {
+        console.error("error in fuck", error);
+        return res.status(400).json({ err: error });
+    }
 });
 exports.checkPayment = checkPayment;
