@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import categoryRouter from "../routes/categoryRoute";
 import axios from "axios";
 import { OrderModel } from "../models/orderModel";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -54,23 +55,29 @@ export const createInvoice = async (req: Request, res: Response) => {
 
 
 export const checkPayment = async (req: Request, res: Response) => {
-  const { orderId } = req.query;
-  const checkRes = await axios.post(
-    "https://merchant.qpay.mn/v2/payment/check",
-    {
-      object_type: "INVOICE",
-      object_id: req.body.invoiceId,
-      offset: {
-        page_number: 1,
-        page_limit: 100,
-      },
-    },
+  try {
+    console.log("first")
+    // const { orderId } = req.query;
+    // const checkRes = await axios.post(
+    //   "https://merchant.qpay.mn/v2/payment/check",
+    //   {
+    //     object_type: "INVOICE",
+    //     object_id: req.body.invoiceId,
+    //     offset: {
+    //       page_number: 1,
+    //       page_limit: 100,
+    //     },
+    //   },
 
-    { headers: { Authorization: `Bearer ${req.body.token}` } }
-  );
+    //   { headers: { Authorization: `Bearer ${req.body.token}` } }
+    // );
 
-  if (checkRes.data.isPaid) {
-    await OrderModel.findByIdAndUpdate(orderId, { IsPaidStatus: true });
+    // if (checkRes.data.isPaid) {
+    //   await OrderModel.findByIdAndUpdate(new mongoose.Types.ObjectId(orderId), { IsPaidStatus: true });
+    // }
+    return res.status(200).json({ check: true });
+  } catch (error) {
+    console.error("error in fuck", error)
+    return res.status(400).json({ err: error })
   }
-  return res.status(200).json({ check: checkRes.data });
 };
