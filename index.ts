@@ -75,7 +75,7 @@ app.post("/createinvoice", async (req, res) => {
     "invoice_receiver_code": "terminal",
     "invoice_description": "test",
     "amount": 10,
-    "callback_url": "https://backenddeploy-so3p.onrender.com"
+    "callback_url": "https://travelcon-eta.vercel.app/"
   }, { headers: { Authorization: `Bearer ${token}` } });
 
   return res.status(201).json({ invoiceId: createQr.data })

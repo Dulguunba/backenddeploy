@@ -46,7 +46,7 @@ export const createInvoice = async (req: Request, res: Response) => {
       invoice_receiver_code: "terminal",
       invoice_description: "test",
       amount: 10,
-      callback_url: "https://backenddeploy-so3p.onrender.com",
+      callback_url: "https://travelcon-eta.vercel.app",
     },
     { headers: { Authorization: `Bearer ${req.body.token}` } }
   );
